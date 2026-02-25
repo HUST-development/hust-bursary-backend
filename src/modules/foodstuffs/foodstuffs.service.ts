@@ -244,8 +244,6 @@ export class FoodstuffsService {
       activityData.requisitionId = addActivityDto.requisitionId;
     }
 
-    const activity = await this.foodstuffHistoryRepository.create(activityData);
-
     // Update foodstuff
     const updatedData: any = {
       currentQuantity: newQuantity,
@@ -265,14 +263,32 @@ export class FoodstuffsService {
     };
 
     // Update average cost for purchases
+    // if (addActivityDto.actionType === ActionType.PURCHASE && addActivityDto.quantityChanged > 0) {
+    //   const totalValue =
+    //     foodstuff.currentQuantity * (foodstuff.averageCostPrice > 0 ? foodstuff.averageCostPrice : addActivityDto.unitCost || 0) +
+    //     (addActivityDto?.totalCost || 0);
+    //   updatedData.averageCostPrice = addActivityDto.quantityChanged > 0 ? totalValue / newQuantity :foodstuff.averageCostPrice
+    // } else {
+
+    //   updatedData.averageCostPrice = foodstuff.averageCostPrice;
+    // }
+
     if (addActivityDto.actionType === ActionType.PURCHASE && addActivityDto.quantityChanged > 0) {
-      const totalValue =
-        foodstuff.currentQuantity * (foodstuff.averageCostPrice > 0 ? foodstuff.averageCostPrice : addActivityDto.unitCost || 0) +
-        (addActivityDto?.totalCost || 0);
-      updatedData.averageCostPrice = totalValue / newQuantity;
+      if (newQuantity <= 0) {
+        // Stock was deeply negative; just use the new purchase's unit cost as the price
+        updatedData.averageCostPrice = addActivityDto.unitCost;
+      } else {
+        const prevQuantity = Math.max(foodstuff.currentQuantity, 0); // ignore negative history for cost calc
+        const totalValue =
+          prevQuantity * (foodstuff.averageCostPrice > 0 ? foodstuff.averageCostPrice : addActivityDto.unitCost || 0) +
+          (addActivityDto.totalCost || 0);
+        updatedData.averageCostPrice = totalValue / (prevQuantity + addActivityDto.quantityChanged);
+      }
     }
 
     const updatedFoodstuff = await this.foodstuffRepository.update({ _id: foodstuffId }, updatedData);
+
+    const activity = await this.foodstuffHistoryRepository.create(activityData);
 
     const populatedActivity = await this.foodstuffHistoryRepository.findAllAndPopulate({ _id: activity._id }, [
       { path: 'doneBy', select: 'firstName lastName email' },
