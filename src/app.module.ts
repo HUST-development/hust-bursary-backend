@@ -31,6 +31,7 @@ import { ReportsModule } from './modules/reports/reports.module';
 import { CronJobService } from './services/cron-job.service';
 import { FoodstuffsModule } from './modules/foodstuffs/foodstuffs.module';
 import { MedicalModule } from './modules/medical/medical.module';
+import { GroceryModule } from './modules/grocery/grocery.module';
 
 dotenv.config();
 @Module({
@@ -56,42 +57,42 @@ dotenv.config();
       },
       inject: [ConfigService],
     }),
-    MailerModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => {
-        let dev_env = process.env.NODE_ENV as 'development' | 'production';
+    // MailerModule.forRootAsync({
+    //   imports: [ConfigModule],
+    //   useFactory: async (configService: ConfigService) => {
+    //     let dev_env = process.env.NODE_ENV as 'development' | 'production';
 
-        if (dev_env !== 'development' && dev_env !== 'production') {
-          dev_env = 'development';
-        }
+    //     if (dev_env !== 'development' && dev_env !== 'production') {
+    //       dev_env = 'development';
+    //     }
 
-        return {
-          transport: {
-            host: configService.get<string>(`${dev_env}.mail.MAIL_HOST`),
-            port: configService.get<number>(`${dev_env}.mail.MAIL_PORT`),
-            secure: false,
-            auth: {
-              user: configService.get<string>(`${dev_env}.mail.MAIL_USER`),
-              pass: configService.get<string>(`${dev_env}.mail.MAIL_PASS`),
-            },
-            tls: {
-              rejectUnauthorized: false,
-            },
-          },
-          defaults: {
-            from: '"HustTicketing: No Reply" <HustTicketing@HustTicketing.com>',
-          },
-          template: {
-            dir: join(__dirname, './../src/templates'),
-            adapter: new HandlebarsAdapter(),
-            options: {
-              strict: true,
-            },
-          },
-        };
-      },
-      inject: [ConfigService],
-    }),
+    //     return {
+    //       transport: {
+    //         host: configService.get<string>(`${dev_env}.mail.MAIL_HOST`),
+    //         port: configService.get<number>(`${dev_env}.mail.MAIL_PORT`),
+    //         secure: false,
+    //         auth: {
+    //           user: configService.get<string>(`${dev_env}.mail.MAIL_USER`),
+    //           pass: configService.get<string>(`${dev_env}.mail.MAIL_PASS`),
+    //         },
+    //         tls: {
+    //           rejectUnauthorized: false,
+    //         },
+    //       },
+    //       defaults: {
+    //         from: '"HustTicketing: No Reply" <HustTicketing@HustTicketing.com>',
+    //       },
+    //       template: {
+    //         dir: join(__dirname, './../src/templates'),
+    //         adapter: new HandlebarsAdapter(),
+    //         options: {
+    //           strict: true,
+    //         },
+    //       },
+    //     };
+    //   },
+    //   inject: [ConfigService],
+    // }),
     AuthModule,
     UsersModule,
     AuthorizedUsersModule,
@@ -103,6 +104,7 @@ dotenv.config();
     // Application Modules Go Here
     // Medical records module
     MedicalModule,
+    GroceryModule,
   ],
   controllers: [AppController],
   providers: [

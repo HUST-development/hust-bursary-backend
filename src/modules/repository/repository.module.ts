@@ -95,6 +95,31 @@ import { DatabaseModelNames } from 'src/shared/constants';
       useFactory: (medicalWalletHistoryModel) => new BaseRepository(medicalWalletHistoryModel),
       inject: [getModelToken(DatabaseModelNames.MEDICAL_WALLET_HISTORY)],
     },
+    {
+      provide: Repositories.GroceryCartRepository,
+      useFactory: (groceryCartModel) => new BaseRepository(groceryCartModel),
+      inject: [getModelToken(DatabaseModelNames.GROCERY_CART)],
+    },
+    {
+      provide: Repositories.GroceryItemRepository,
+      useFactory: (groceryItemModel) => new BaseRepository(groceryItemModel),
+      inject: [getModelToken(DatabaseModelNames.GROCERY_ITEM)],
+    },
+    {
+      provide: Repositories.GroceryOrderRepository,
+      useFactory: (groceryOrderModel) => new BaseRepository(groceryOrderModel),
+      inject: [getModelToken(DatabaseModelNames.GROCERY_ORDER)],
+    },
+    {
+      provide: Repositories.OrderHistoryRepository,
+      useFactory: (orderHistoryModel) => new BaseRepository(orderHistoryModel),
+      inject: [getModelToken(DatabaseModelNames.ORDER_HISTORY)],
+    },
+    // {
+    //   provide: Repositories.VendorOrderRepository,
+    //   useFactory: (vendorOrderModel) => new BaseRepository(vendorOrderModel),
+    //   inject: [getModelToken(DatabaseModelNames.VENDOR_ORDER)],
+    // }
   ],
   exports: [...Object.values(Repositories)],
 })

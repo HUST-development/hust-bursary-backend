@@ -19,6 +19,10 @@ import { StudentSchema } from '../medical/schemas/student.schema';
 import { MedicalRecordSchema } from '../medical/schemas/medical-record.schema';
 import { MedicalWalletSchema } from '../medical/schemas/medical-wallet.schema';
 import { MedicalWalletHistorySchema } from '../medical/schemas/wallet-history.schema';
+import { GroceryItemSchema } from '../grocery/schemas/grocery-item.schema';
+import { GroceryCartSchema } from '../grocery/schemas/grocery-cart.schema';
+import { GroceryOrderSchema } from '../grocery/schemas/grocery-order.schema';
+import { OrderHistorySchema } from '../grocery/schemas/order-history.schema';
 
 @Module({
   imports: [
@@ -40,6 +44,10 @@ import { MedicalWalletHistorySchema } from '../medical/schemas/wallet-history.sc
       { name: DatabaseModelNames.MEDICAL_RECORD, schema: MedicalRecordSchema },
       { name: DatabaseModelNames.MEDICAL_WALLET, schema: MedicalWalletSchema },
       { name: DatabaseModelNames.MEDICAL_WALLET_HISTORY, schema: MedicalWalletHistorySchema },
+      { name: DatabaseModelNames.GROCERY_ITEM, schema: GroceryItemSchema },
+      { name: DatabaseModelNames.GROCERY_CART, schema: GroceryCartSchema },
+      { name: DatabaseModelNames.GROCERY_ORDER, schema: GroceryOrderSchema },
+      { name: DatabaseModelNames.ORDER_HISTORY, schema: OrderHistorySchema },
     ]),
   ],
   exports: [MongooseModule],

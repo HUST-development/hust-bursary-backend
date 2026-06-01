@@ -12,6 +12,11 @@ export const CloudinaryProvider: Provider = {
       api_key: configService.get<string>(`${environment}.cloudinary.apiKey`),
       api_secret: configService.get<string>(`${environment}.cloudinary.apiSecret`),
     });
+    console.log({
+      cloud_name: configService.get<string>(`${environment}.cloudinary.name`),
+      api_key: configService.get<string>(`${environment}.cloudinary.apiKey`),
+      api_secret: configService.get<string>(`${environment}.cloudinary.apiSecret`),
+    });
     return cloudinary;
   },
   inject: [ConfigService],

@@ -16,4 +16,8 @@ export const Repositories = {
   StudentRepository: 'StudentRepository',
   MedicalRecordRepository: 'MedicalRecordRepository',
   MedicalWalletRepository: 'MedicalWalletRepository',
+  GroceryItemRepository: 'GroceryItemRepository',
+  GroceryCartRepository: 'GroceryCartRepository',
+  GroceryOrderRepository: 'GroceryOrderRepository',
+  OrderHistoryRepository: 'OrderHistoryRepository',
 };

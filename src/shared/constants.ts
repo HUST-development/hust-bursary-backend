@@ -16,6 +16,11 @@ export enum DatabaseModelNames {
   MEDICAL_RECORD = 'MedicalRecord',
   MEDICAL_WALLET = 'MedicalWallet',
   MEDICAL_WALLET_HISTORY = 'MedicalWalletHistory',
+  GROCERY_ITEM = 'GroceryItem',
+  GROCERY_CART = 'GroceryCart',
+  GROCERY_ORDER = 'GroceryOrder',
+  GROCERY_ORDER_ITEM = 'GroceryOrderItem',
+  ORDER_HISTORY = 'OrderHistory',
 }
 
 export enum UserRole {
@@ -77,6 +82,31 @@ export enum ActionType {
   USAGE = 'usage',
   WASTAGE = 'wastage',
   CORRECTION = 'correction',
+}
+
+export enum GroceryOrderStatus {
+  PENDING = 'PENDING',
+  PAID = 'PAID',
+  READY_FOR_PICKUP = 'READY_FOR_PICKUP',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED',
+}
+
+export enum OrderItemStatus {
+  PENDING = 'PENDING',
+  PREPARED = 'PREPARED',
+  READY = 'READY',
+  HANDED_OVER = 'HANDED_OVER',
+}
+
+export enum GroceryUnitType {
+  PACK = 'PACK',
+  ROLL = 'ROLL',
+  PIECE = 'PIECE',
+  KG = 'KG',
+  LITER = 'LITER',
+  BOX = 'BOX',
+  CARTON = 'CARTON',
 }
 
 export const Constants = {
