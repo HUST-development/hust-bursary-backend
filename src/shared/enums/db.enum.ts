@@ -20,4 +20,5 @@ export const Repositories = {
   GroceryCartRepository: 'GroceryCartRepository',
   GroceryOrderRepository: 'GroceryOrderRepository',
   OrderHistoryRepository: 'OrderHistoryRepository',
+  GroceryStockHistoryRepository: 'GroceryStockHistoryRepository',
 };

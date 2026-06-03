@@ -135,6 +135,7 @@ export class OrderService {
       const updatedOrder = await this.orderRepo.update(new Types.ObjectId(order._id), {
         status: GroceryOrderStatus.PAID,
         paidAt: new Date(response?.date || Date.now()),
+        paymentMethod: 'online',
       });
 
       await this.historyRepo.create({

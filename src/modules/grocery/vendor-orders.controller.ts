@@ -39,7 +39,12 @@ export class VendorOrdersController {
 
   @Patch(':orderId/complete')
   @ApiOperation({ summary: 'Verify code and mark order as COMPLETED (VENDOR)' })
-  async markOrderAsCompleted(@Req() req: any, @Param('orderId') orderId: string, @Body('orderCode') orderCode: string) {
-    return this.vendorOrderService.markOrderAsCompleted(orderId, req.user.id, orderCode);
+  async markOrderAsCompleted(
+    @Req() req: any,
+    @Param('orderId') orderId: string,
+    @Body('orderCode') orderCode: string,
+    @Body('paymentMethod') paymentMethod: string,
+  ) {
+    return this.vendorOrderService.markOrderAsCompleted(orderId, req.user.id, orderCode, paymentMethod);
   }
 }

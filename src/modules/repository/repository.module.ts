@@ -115,6 +115,11 @@ import { DatabaseModelNames } from 'src/shared/constants';
       useFactory: (orderHistoryModel) => new BaseRepository(orderHistoryModel),
       inject: [getModelToken(DatabaseModelNames.ORDER_HISTORY)],
     },
+    {
+      provide: Repositories.GroceryStockHistoryRepository,
+      useFactory: (stockHistoryModel) => new BaseRepository(stockHistoryModel),
+      inject: [getModelToken(DatabaseModelNames.GROCERY_STOCK_HISTORY)],
+    },
     // {
     //   provide: Repositories.VendorOrderRepository,
     //   useFactory: (vendorOrderModel) => new BaseRepository(vendorOrderModel),

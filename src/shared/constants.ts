@@ -21,6 +21,7 @@ export enum DatabaseModelNames {
   GROCERY_ORDER = 'GroceryOrder',
   GROCERY_ORDER_ITEM = 'GroceryOrderItem',
   ORDER_HISTORY = 'OrderHistory',
+  GROCERY_STOCK_HISTORY = 'GroceryStockHistory',
 }
 
 export enum UserRole {

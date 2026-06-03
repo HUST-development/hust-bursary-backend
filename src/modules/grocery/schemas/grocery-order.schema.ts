@@ -20,6 +20,8 @@ export class OrderItem {
   subtotal: number;
 }
 
+const PaymentMethods = ['pos', 'cash', 'bank_transfer', 'online'];
+
 @Schema({ timestamps: true })
 export class GroceryOrder extends Document {
   @Prop({ required: true, unique: true, index: true })
@@ -45,6 +47,9 @@ export class GroceryOrder extends Document {
 
   @Prop()
   paymentReference: string;
+
+  @Prop({ default: 'pos', enum: PaymentMethods })
+  paymentMethod: string;
 
   @Prop({ required: true, default: 10 })
   processingFee: number;

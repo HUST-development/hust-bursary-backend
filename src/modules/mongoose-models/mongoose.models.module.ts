@@ -23,6 +23,7 @@ import { GroceryItemSchema } from '../grocery/schemas/grocery-item.schema';
 import { GroceryCartSchema } from '../grocery/schemas/grocery-cart.schema';
 import { GroceryOrderSchema } from '../grocery/schemas/grocery-order.schema';
 import { OrderHistorySchema } from '../grocery/schemas/order-history.schema';
+import { StockHistorySchema } from '../grocery/schemas/stock-history.schema';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { OrderHistorySchema } from '../grocery/schemas/order-history.schema';
       { name: DatabaseModelNames.GROCERY_CART, schema: GroceryCartSchema },
       { name: DatabaseModelNames.GROCERY_ORDER, schema: GroceryOrderSchema },
       { name: DatabaseModelNames.ORDER_HISTORY, schema: OrderHistorySchema },
+      { name: DatabaseModelNames.GROCERY_STOCK_HISTORY, schema: StockHistorySchema },
     ]),
   ],
   exports: [MongooseModule],

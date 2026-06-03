@@ -7,6 +7,7 @@ import { Roles } from '../auth/decorators/roles.decorator';
 import { JwtUserAuthGuard } from '../auth/guards/jwt-user-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { UserRole } from '../../shared/constants';
+import { GetUser } from '../auth/decorators/get-user.decorator';
 
 @ApiTags('Grocery Items')
 @Controller('api/v1/grocery/items')
@@ -36,6 +37,14 @@ export class GroceryItemsController {
     return this.groceryService.getItemById(id);
   }
 
+  @Get(':id/history')
+  @ApiOperation({ summary: 'Get grocery item stock history (Public)' })
+  async getItemHistory(@Param('id') id: string, @Query('page') page: string = '1', @Query('limit') limit: string = '10') {
+    const pageNumber = Math.max(1, parseInt(page, 10) || 1);
+    const limitNumber = Math.max(1, parseInt(limit, 10) || 10);
+    return this.groceryService.getItemHistory(id, pageNumber, limitNumber);
+  }
+
   @UseGuards(JwtUserAuthGuard, RolesGuard)
   @Roles(UserRole.STORE_MANAGER)
   @Post()
@@ -43,8 +52,8 @@ export class GroceryItemsController {
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
   @ApiOperation({ summary: 'Create a new grocery item (STORE_MANAGER)' })
-  async createItem(@Body() dto: CreateGroceryItemDto, @UploadedFile() file: Express.Multer.File) {
-    return this.groceryService.createItem(dto, file);
+  async createItem(@GetUser() user: any, @Body() dto: CreateGroceryItemDto, @UploadedFile() file: Express.Multer.File) {
+    return this.groceryService.createItem(dto, file, user.id || user._id);
   }
 
   @UseGuards(JwtUserAuthGuard, RolesGuard)
@@ -53,9 +62,13 @@ export class GroceryItemsController {
   @ApiBearerAuth()
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
-  @ApiOperation({ summary: 'Update a grocery item (STORE_MANAGER)' })
-  async updateItem(@Param('id') id: string, @Body() dto: any, @UploadedFile() file: Express.Multer.File) {
-    return this.groceryService.updateItem(id, dto, file);
+  @ApiOperation({
+    summary: 'Update grocery item - metadata OR stock (STORE_MANAGER)',
+    description:
+      'Unified endpoint handling both metadata updates (name, description, image) and cumulative stock updates. Auto-detects update type. For stock updates, quantityChanged is added to current stock (not a replacement).',
+  })
+  async updateItem(@GetUser() user: any, @Param('id') id: string, @Body() dto: any, @UploadedFile() file: Express.Multer.File) {
+    return this.groceryService.updateItem(id, { ...dto, doneBy: user.id || user._id }, file);
   }
 
   @UseGuards(JwtUserAuthGuard, RolesGuard)

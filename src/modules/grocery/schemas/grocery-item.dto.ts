@@ -21,6 +21,18 @@ export class GroceryItemVariantDto {
   @IsOptional()
   @IsBoolean()
   isActive?: boolean;
+
+  @IsOptional()
+  @Transform(({ value }) => {
+    if (typeof value === 'string') {
+      const parsed = parseInt(value, 10);
+      return isNaN(parsed) ? undefined : parsed;
+    }
+    return value;
+  })
+  @IsNumber()
+  @Min(0)
+  quantityAdded?: number;
 }
 
 export class CreateGroceryItemDto {
@@ -54,6 +66,10 @@ export class CreateGroceryItemDto {
   @IsOptional()
   @IsString()
   imageUrl?: string;
+
+  @IsOptional()
+  @IsString()
+  note?: string;
 }
 
 export class UpdateGroceryItemDto {
@@ -76,6 +92,19 @@ export class UpdateGroceryItemDto {
   imageUrl?: string;
 
   @IsOptional()
+  @Transform(({ value }) => {
+    if (typeof value === 'string') {
+      return value === 'true' || value === '1' || value === 'TRUE';
+    }
+    return Boolean(value);
+  })
   @IsBoolean()
   isActive?: boolean;
+
+  @IsOptional()
+  @IsString()
+  note?: string;
+
+  // Internal use only - not from frontend
+  doneBy?: string;
 }

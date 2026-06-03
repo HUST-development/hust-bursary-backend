@@ -58,7 +58,7 @@ export class VendorOrderService {
     return updatedOrder;
   }
 
-  async markOrderAsCompleted(orderId: string, vendorId: string, orderCode: string) {
+  async markOrderAsCompleted(orderId: string, vendorId: string, orderCode: string, paymentMethod: string) {
     const order = await this.orderRepo.findOne({ _id: orderId });
     if (!order) throw new NotFoundException('Order not found');
 
@@ -75,6 +75,7 @@ export class VendorOrderService {
     const updatedOrder = await this.orderRepo.update(new Types.ObjectId(orderId), {
       status: GroceryOrderStatus.COMPLETED,
       completedAt: new Date(),
+      paymentMethod: order.paymentMethod === 'online' ? 'online' : paymentMethod,
     });
 
     await this.historyRepo.create({
