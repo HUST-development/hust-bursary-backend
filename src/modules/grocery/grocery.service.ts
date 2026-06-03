@@ -77,6 +77,10 @@ export class GroceryService {
       dto.imageUrl = image.secure_url;
     }
 
+    if (dto.variants) {
+      dto.variants = typeof dto.variants === 'string' ? JSON.parse(dto.variants) : dto.variants;
+    }
+
     const createdItem = await this.groceryItemRepo.create(dto);
 
     // Create initial stock history record for each variant with currentQuantity
