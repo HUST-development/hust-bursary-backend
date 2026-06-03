@@ -52,7 +52,7 @@ export class GroceryItemsController {
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
   @ApiOperation({ summary: 'Create a new grocery item (STORE_MANAGER)' })
-  async createItem(@GetUser() user: any, @Body() dto: CreateGroceryItemDto, @UploadedFile() file: Express.Multer.File) {
+  async createItem(@GetUser() user: any, @Body() dto: any, @UploadedFile() file: Express.Multer.File) {
     return this.groceryService.createItem(dto, file, user.id || user._id);
   }
 
