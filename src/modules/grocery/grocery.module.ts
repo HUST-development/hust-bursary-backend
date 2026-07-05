@@ -4,6 +4,7 @@ import { GroceryItemsController } from './grocery-items.controller';
 import { GroceryCartController } from './grocery-cart.controller';
 import { GroceryOrdersController } from './grocery-orders.controller';
 import { VendorOrdersController } from './vendor-orders.controller';
+import { AdminGroceryOrdersController } from './admin-grocery-orders.controller';
 import { GroceryService } from './grocery.service';
 import { CartService } from './cart.service';
 import { OrderService } from './order.service';
@@ -17,7 +18,13 @@ import { CloudinaryModule } from '../cloudinary/cloudinary.module';
 
 @Module({
   imports: [MongooseModelsModule, RepositoryModule, CloudinaryModule, AuthModule],
-  controllers: [GroceryItemsController, GroceryCartController, GroceryOrdersController, VendorOrdersController],
+  controllers: [
+    GroceryItemsController,
+    GroceryCartController,
+    GroceryOrdersController,
+    VendorOrdersController,
+    AdminGroceryOrdersController,
+  ],
   providers: [GroceryService, CartService, OrderService, VendorOrderService, PaymentService, GroceryCronService],
 })
 export class GroceryModule {}
